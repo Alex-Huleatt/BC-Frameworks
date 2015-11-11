@@ -12,6 +12,7 @@ Each of the packages has some code to help solve some of the common problems in 
 
 Some of this code is optimized for bytecode, and a lot of it is designed to be as pleasant to use and modify.
 The only thing I put a lot of time into optimizing is the A* implementation in the movement package. I like to think I did okay.
+
 After 2015 BC, I decided to move away from 2D arrays for grid representations, and started using a lot of hash structures. It costs more bytecode, but keeps the code simple. If you find yourself running out of bytecode, that's probably one of the first places I would look into optimizing. 
 
 We have:
