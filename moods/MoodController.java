@@ -15,8 +15,9 @@ public class MoodController {
     public final RobotController rc;
     public Mood m;
     
-    public MoodController(RobotController rc) {
+    public MoodController(RobotController rc, Mood initialMood) {
         this.rc = rc;
+        m=initialMood;
     }
     
     public final void run() {
