@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package General.Movement;
+package General.movement;
 
+import static General.util.Common.dirToInt;
 import battlecode.common.Direction;
 import battlecode.common.MapLocation;
 import battlecode.common.RobotController;
@@ -14,9 +15,11 @@ import team016.Const;
  *
  * @author alexhuleatt
  */
-public class TBug extends Mover {
+public class TBug {
 
-    final MapLocation start;
+    final MapLocation start,goal;
+    final RobotController rc;
+    MapLocation me;
     MapLocation lastRet;
     MapLocation closest;
     int dir;
@@ -33,10 +36,11 @@ public class TBug extends Mover {
      * @param goal
      * @throws java.lang.Exception
      */
-    public TBug(RobotController rc, MapLocation goal) throws Exception {
-        super(rc, goal);
-
-        this.start = rc.getLocation();
+    public TBug(RobotController rc, MapLocation goal) {
+        this.rc = rc;
+        this.me = rc.getLocation();
+        this.start = me;
+        this.goal = goal;
         this.closest = start;
         this.reverse = initReverse(goal);
         this.firstMove = true;
@@ -48,7 +52,6 @@ public class TBug extends Mover {
                 && me.distanceSquaredTo(goal) < closest.distanceSquaredTo(goal);
     }
 
-    @Override
     public MapLocation nextMove() throws Exception {
 
         //the initial move is important.
@@ -76,7 +79,6 @@ public class TBug extends Mover {
             dir = Const.directionToInt(me.directionTo(n));
             return n;
         }
-        
 
         return null;
     }
@@ -106,10 +108,12 @@ public class TBug extends Mover {
         }
     }
 
-    private boolean initReverse(MapLocation goal) throws Exception {
+    private boolean initReverse(MapLocation goal) {
         int offset = Math.min(8 - dir, dir);
         int dir_to_obs = Const.directionToInt(me.directionTo(goal));
         return ((dir_to_obs + offset) % 8) < 4;
     }
+
+
 
 }
