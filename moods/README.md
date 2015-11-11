@@ -19,7 +19,7 @@ This function is the first function to get called each round and is really just 
 Mostly just convenience.
 
 ###swing()  
-This let's you have a mood swing :grimacing: to a different mood.
+This let's you have a mood swing :sweat_smile: to a different mood.
 for instance, if you were in an "Aggressive" mood, and you saw a bunch of enemy units, you could swing to a "Spooked" mood, which has your running away logic.
 If you return null, you do not swing.
 Also, if you return the same class of mood, you will also not swing.
