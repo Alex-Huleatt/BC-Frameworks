@@ -17,12 +17,12 @@ After 2015 BC, I decided to move away from 2D arrays for grid representations, a
 We have:
 
 * Path planning
-** A*
-** Tangent Bugging
+	* A*
+	* Tangent Bugging
 
 * Communication system
-** Signed messages
-** Much prettier read/write
+	* Signed messages
+	* Much prettier read/write
 
 * A pretty neat little state machine/Turing machine inspired architecture for controlling all the robots.
 
