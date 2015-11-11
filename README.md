@@ -29,7 +29,11 @@ We have:
 
 * A little util package for little functions that I always end up wanting
 
+## BTW
+This was tested entirely in the 2013 distribution of BattleCode, I'll try to update it as soon as the 2016 version comes out.
 
 ## For anyone and everyone
 
 Go Bobcats.
+
+
