@@ -25,7 +25,7 @@ public class MoodController {
         Mood swung = m.swing();
         if (swung != null && m.getClass() != swung.getClass()) {
             m = swung;
-            m.transfer(swung); //transfer over expensive data to the receiver.
+            swung.transfer(m); //transfer over expensive data to the receiver.
         }
         m.act();
     }

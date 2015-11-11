@@ -53,6 +53,8 @@ public abstract class Mood {
     void transfer(Mood swung) {
     }
 
+    void init() { }
+    
     /**
      * This function actually changes the robot's state.
      * Does not make sense to have a default, really.

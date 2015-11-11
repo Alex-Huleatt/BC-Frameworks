@@ -24,9 +24,6 @@ for instance, if you were in an "Aggressive" mood, and you saw a bunch of enemy 
 If you return null, you do not swing.
 Also, if you return the same class of mood, you will also not swing.
 
-###transfer(Mood m)
-This is called when you are swinging to a new mood. Because update() has already been called, and the *new* mood is the one getting called to act, we might want to transfer over variables that are expensive to calculate. This allows some level of persistance between Moods, but ideally this shouldn't really be used for permanent variables, just ephemeral ones.
-
 ###act()
 The bread and butter of each mood, this is the function where you want to put all the stuff that modifies your robot's state. 
 
