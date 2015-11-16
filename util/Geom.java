@@ -44,7 +44,6 @@ public class Geom {
     //http://martin-thoma.com/how-to-check-if-two-line-segments-intersect/
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public static boolean isPointOnLine(MapLocation a1, MapLocation a2, MapLocation b) {
-        // Move the image, so that a.first is on (0|0)
         MapLocation offsetB = new MapLocation(a2.x - a1.x, a2.y - a1.y);
 
         MapLocation bTmp = new MapLocation(b.x - a1.x, b.y - a1.y);
@@ -94,4 +93,13 @@ public class Geom {
                 && lineSegmentTouchesOrCrossesLine(b1, b2, a1, a2);
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    public static boolean locOnLine(MapLocation start, MapLocation end, MapLocation loc) {
+        if (start == null || end == null || loc == null) {
+            // YOU DONE MESSED UP A-A-RON
+            return false;
+        }
+        return disToLine(start, end, loc) < 2;
+    }
+
 }

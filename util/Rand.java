@@ -22,4 +22,6 @@ public class Rand {
         long rand = Math.abs(1 + xorshiftstar(seed));
         return (int) (rand % max);
     }
+
+
 }

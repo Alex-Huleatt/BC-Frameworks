@@ -14,5 +14,5 @@ package General.comm;
  */
 public enum Message {
 
-    UNSIGNED, ERROR
+    UNSIGNED, ERROR, 
 }

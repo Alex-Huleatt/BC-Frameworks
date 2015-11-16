@@ -5,11 +5,11 @@
  */
 package General.movement;
 
-import static General.util.Common.dirToInt;
+import General.util.Common;
+import General.util.Geom;
 import battlecode.common.Direction;
 import battlecode.common.MapLocation;
 import battlecode.common.RobotController;
-import team016.Const;
 
 /**
  *
@@ -44,11 +44,11 @@ public class TBug {
         this.closest = start;
         this.reverse = initReverse(goal);
         this.firstMove = true;
-        this.dir = dirToInt(me.directionTo(goal));
+        this.dir = Common.dirToInt(me.directionTo(goal));
     }
 
     public boolean done() {
-        return Const.locOnLine(start, goal, me)
+        return Geom.locOnLine(start, goal, me)
                 && me.distanceSquaredTo(goal) < closest.distanceSquaredTo(goal);
     }
 
@@ -60,9 +60,9 @@ public class TBug {
             MapLocation t_clos = null;
             int minDis = Integer.MAX_VALUE;
             for (int i = 0; i <= 7; i++) {
-                MapLocation t = me.add(Const.directions[(dir + i + 8) % 8]);
+                MapLocation t = me.add(Common.directions[(dir + i + 8) % 8]);
                 int t_dis = t.distanceSquaredTo(goal);
-                if (!Const.isObstacle(rc, t) && t_dis < minDis) {
+                if (!Common.isObstacle(rc, t) && t_dis < minDis) {
                     t_clos = t;
                     minDis = t_dis;
                 }
@@ -76,7 +76,7 @@ public class TBug {
         MapLocation n = trace();
 
         if (n != null) {
-            dir = Const.directionToInt(me.directionTo(n));
+            dir = Common.dirToInt(me.directionTo(n));
             return n;
         }
 
@@ -88,15 +88,15 @@ public class TBug {
         int mindir = -1;
         int mindis = Integer.MAX_VALUE;
         int sd = (reverse) ? 1 : -1;
-        Direction[] dirs = Const.directions;
+        Direction[] dirs = Common.directions;
         for (int i = -2; i <= 2; i++) {
             int d = (dir + i + 8) % 8;
-            if (Const.isObstacle(rc, Const.directions[d])) {
+            if (Common.isObstacle(rc, Common.directions[d])) {
                 continue;
             }
             temp = me.add(dirs[d]);
             int dis = temp.distanceSquaredTo(me.add(dirs[((dir + 2 * sd) + 8) % 8]));
-            if ((Const.isObstacle(rc, dirs[(d + sd + 8) % 8]) && dis < mindis)) {
+            if ((Common.isObstacle(rc, dirs[(d + sd + 8) % 8]) && dis < mindis)) {
                 mindir = d;
                 mindis = dis;
             }
@@ -104,13 +104,13 @@ public class TBug {
         if (mindir == -1) {
             return null;
         } else {
-            return me.add(Const.directions[mindir]);
+            return me.add(Common.directions[mindir]);
         }
     }
 
     private boolean initReverse(MapLocation goal) {
         int offset = Math.min(8 - dir, dir);
-        int dir_to_obs = Const.directionToInt(me.directionTo(goal));
+        int dir_to_obs = Common.dirToInt(me.directionTo(goal));
         return ((dir_to_obs + offset) % 8) < 4;
     }
 

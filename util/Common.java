@@ -6,11 +6,19 @@
 package General.util;
 
 import battlecode.common.Direction;
+import battlecode.common.GameObject;
+import battlecode.common.MapLocation;
+import battlecode.common.RobotController;
+import battlecode.common.TerrainTile;
+
 
 /**
  * Common shared variables and functions used across the code.
+ *
  * @author alexhuleatt
  */
+
+
 public class Common {
 
     public static Direction[] directions = {Direction.NORTH, Direction.NORTH_EAST,
@@ -38,6 +46,37 @@ public class Common {
             default:
                 return -1;
         }
+    }
+
+    public static MapLocation intToLoc(int l) {
+        return new MapLocation(l >> 8, l & 255);
+    }
+
+    public static int locToInt(MapLocation m) {
+        if (m == null) {
+            return -1;
+        }
+        return m.x << 8 | m.y;
+    }
+
+    public static boolean isObstacle(RobotController rc, Direction dir) throws Exception {
+        return isObstacle(rc, rc.getLocation().add(dir));
+    }
+
+    public static boolean isObstacle(RobotController rc, MapLocation loc) throws Exception {
+        TerrainTile tt = rc.senseTerrainTile(loc);
+        if (tt == TerrainTile.VOID || tt == TerrainTile.OFF_MAP) {
+            return true;
+        }
+        if (rc.canSenseSquare(loc)) {
+            GameObject obj = rc.senseObjectAtLocation(loc);
+            return (obj != null);
+        }
+        return false;
+    }
+
+    public static boolean isObstacle(RobotController rc, int dir) throws Exception {
+        return isObstacle(rc, directions[dir]);
     }
 
 }
