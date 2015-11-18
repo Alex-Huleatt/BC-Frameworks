@@ -10,6 +10,7 @@ import General.util.Geom;
 import battlecode.common.Direction;
 import battlecode.common.MapLocation;
 import battlecode.common.RobotController;
+import java.util.ArrayDeque;
 
 /**
  *
@@ -17,10 +18,10 @@ import battlecode.common.RobotController;
  */
 public class TBug {
 
-    final MapLocation start,goal;
+    final MapLocation start, goal;
     final RobotController rc;
     MapLocation me;
-    MapLocation lastRet;
+    //MapLocation lastRet;
     MapLocation closest;
     int dir;
 
@@ -56,26 +57,15 @@ public class TBug {
 
         //the initial move is important.
         if (firstMove) {
-            firstMove = false;
-            MapLocation t_clos = null;
-            int minDis = Integer.MAX_VALUE;
-            for (int i = 0; i <= 7; i++) {
-                MapLocation t = me.add(Common.directions[(dir + i + 8) % 8]);
-                int t_dis = t.distanceSquaredTo(goal);
-                if (!Common.isObstacle(rc, t) && t_dis < minDis) {
-                    t_clos = t;
-                    minDis = t_dis;
-                }
-            }
-            if (t_clos == null) {
-                return null;
-            }
-            return t_clos;
+            return initMove();
         }
 
         MapLocation n = trace();
 
         if (n != null) {
+            if (n.distanceSquaredTo(goal) < closest.distanceSquaredTo(goal)) {
+                closest = n;
+            }
             dir = Common.dirToInt(me.directionTo(n));
             return n;
         }
@@ -83,6 +73,31 @@ public class TBug {
         return null;
     }
 
+    private MapLocation initMove() throws Exception {
+        firstMove = false;
+        MapLocation t_clos = null;
+        int minDis = Integer.MAX_VALUE;
+        for (int i = 0; i <= 7; i++) {
+            MapLocation t = me.add(Common.directions[(dir + i + 8) % 8]);
+            int t_dis = t.distanceSquaredTo(goal);
+            if (!Common.isObstacle(rc, t) && t_dis < minDis) {
+                t_clos = t;
+                minDis = t_dis;
+            }
+        }
+        if (t_clos == null) {
+            return null;
+        }
+        return t_clos;
+    }
+
+    /**
+     * This function is meant to have a unit "trace" an obstacle, as tightly as
+     * possible.
+     *
+     * @return
+     * @throws Exception
+     */
     private MapLocation trace() throws Exception {
         MapLocation temp;
         int mindir = -1;
@@ -113,7 +128,5 @@ public class TBug {
         int dir_to_obs = Common.dirToInt(me.directionTo(goal));
         return ((dir_to_obs + offset) % 8) < 4;
     }
-
-
 
 }

@@ -13,22 +13,16 @@ package General.util;
  */
 public class TinyHash<K, E> {
 
-    private Object[][] keys;
-    private Object[][] vals;
-    private int len;
-    private int cap;
-    private int s_cap;
+    private final Object[][] keys;
+    private final Object[][] vals;
+    private final int cap;
+    private final int s_cap;
 
     public TinyHash(int cap, int s_cap) {
         keys = new Object[cap][s_cap];
         vals = new Object[cap][s_cap];
-        len = 0;
         this.cap = cap;
         this.s_cap = s_cap;
-    }
-
-    public int len() {
-        return len;
     }
 
     public int cap() {
@@ -80,9 +74,5 @@ public class TinyHash<K, E> {
             }
         }
         return null;
-    }
-
-    public double load_factor() {
-        return ((double) len) / cap;
     }
 }

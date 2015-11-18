@@ -26,7 +26,7 @@ public class RadioController {
         this.rc = rc;
     }
 
-    public Message read(String channel) throws Exception {
+    public Message readMessage(String channel) throws Exception {
         int chan = getChannel(channel);
         int raw = rc.readBroadcast(chan);
         if (!isSigned(raw, Clock.getRoundNum())) {
@@ -53,8 +53,17 @@ public class RadioController {
         }
         return Common.intToLoc(unsigned);
     }
- 
-    
+
+    public int readInt(String channel) throws Exception {
+        int chan = getChannel(channel);
+        int raw = rc.readBroadcast(chan);
+        if (!isLocSigned(raw, Clock.getRoundNum())) {
+            return Integer.MIN_VALUE;
+        }
+        int unsigned = unsignLoc(raw, Clock.getRoundNum());
+        return unsigned;
+    }
+
     public void write(String channel, Message m) throws Exception {
         int chan = getChannel(channel);
         rc.broadcast(chan, signMessage(m.ordinal(), Clock.getRoundNum()));
@@ -62,7 +71,12 @@ public class RadioController {
 
     public void write(String channel, MapLocation m) throws Exception {
         int chan = getChannel(channel);
-        rc.broadcast(chan, signLocMessage(Common.locToInt(m), Clock.getRoundNum()));
+        rc.broadcast(chan, signLoc(Common.locToInt(m), Clock.getRoundNum()));
+    }
+
+    public void write(String channel, int n) throws Exception {
+        int chan = getChannel(channel);
+        rc.broadcast(chan, signLoc(n, Clock.getRoundNum()));
     }
 
     private int getChannel(String channel) {
@@ -71,14 +85,16 @@ public class RadioController {
         for (int i = 0; i < barr.length; i++) { //hash the string.
             s = s ^ Rand.xorshiftstar(barr[i]);
         }
-        return (int) (Math.abs(s) % GameConstants.BROADCAST_MAX_CHANNELS);
+        return (int) (((s % GameConstants.BROADCAST_MAX_CHANNELS)
+                + GameConstants.BROADCAST_MAX_CHANNELS)
+                % GameConstants.BROADCAST_MAX_CHANNELS);
     }
 
     private static int signMessage(int message, int round_num) {
         return message | getMask(round_num);
     }
 
-    private static int signLocMessage(int message, int round_num) {
+    private static int signLoc(int message, int round_num) {
         return message | getLocMask(round_num);
     }
 
